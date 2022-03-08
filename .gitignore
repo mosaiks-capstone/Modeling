@@ -129,4 +129,19 @@ dmypy.json
 .pyre/
 
 DS_Store
-dask-worker-space
+dask-worker-space/
+
+data/boundaries/*
+!data/boundaries/*.gitkeep
+
+data/crops/*
+!data/crops/*.gitkeep
+
+data/features/*
+!data/features/*.gitkeep
+
+data/weights/*
+!data/weights/*.gitkeep
+
+images/*
+!images/*.gitkeep
