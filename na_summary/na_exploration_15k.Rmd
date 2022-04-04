@@ -1,0 +1,150 @@
+---
+title: "NA_explore"
+author: "Steven Cognac, Juliet Cohen, Cullen Molitor, Grace Lewin"
+date: "3/30/2022"
+output: html_document
+---
+
+# Template for Visalizaing NA values in Feature Data
+## Data files were initially processed in Python in na_explore_steven.Rmd
+
+## Read in libraries
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(arrow)
+library(dplyr)
+library(stringr)
+library(zoo)
+```
+
+## Import 2015-2021 File for 15k points as feather file
+```{r}
+df_15k <- read_feather("~/cropmosaiks/NA_exploration/shared_folder/15k_data.feather")
+```
+
+## Group the data by year and sum up NA feature values
+```{r}
+# sum up the na values per year
+df_15k_na <- df_15k %>% 
+  group_by(year) %>% 
+  summarize(across(everything(), ~ sum(is.na(.))))
+```
+
+## Convert dataframe to tidy format and perform simple summary statistics
+```{r}
+na_count <- df_15k_na %>% 
+# make each year and month combination into a column, showing sums of all NA values during those time periods
+  pivot_longer(cols = !year,
+               names_to = c("feature", "month"),
+               names_sep = "_",
+               values_to = "na_values") %>% 
+# create new column with calculated proportion of each year and month combination that is composed of NA values
+  mutate(count = nrow(df_15k),
+         na_pct = (na_values/count) * 100)
+```
+
+```{r}
+na_count_names <- na_count %>% 
+  mutate(month = recode(month,
+                        '01' = 'January',
+                        '02' = 'February',
+                        '03' = 'March',
+                        '04' = 'April',
+                        '05' = 'May',
+                        '06' = 'June',
+                        '07' = 'July',
+                        '08' = 'August',
+                        '09' = 'September',
+                        '10' = 'October',
+                        '11' = 'November',
+                        '12' = 'December')) %>% 
+  # round percentage values
+  mutate(na_pct = round(na_pct, 0))
+
+na_count_names$month <- factor(na_count_names$month, levels = c('January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July',
+                        'August',
+                        'September',
+                        'October',
+                        'November',
+                        'December'))
+```
+
+
+## Visualize the NA values as a raster
+```{r}
+na_count_names %>% 
+  ggplot(aes(x = year, y = month, fill = na_values)) + 
+  geom_raster() +
+  ggtitle("NA Feature Values, Zambia 2016-2021") +
+  xlab("Year") +
+  ylab("Month") +
+  scale_fill_continuous(type = 'viridis', limits = c(0, 15000)) +
+  #scale_fill_continuous(type = "gradient", breaks = c(0, 5000, 10000, 15000, 20000)) +
+  #scale_fill_continuous(type = "gradient", breaks = c(0, 5000, 10000, 15000, 20000)) +
+  #scale_fill_viridis_b(breaks = c(0, 5000, 10000, 15000, 20000)) +
+  #scale_fill_gradient2('pi0', low = "white", mid = "blue", high = "red", midpoint = 0) +
+  #guides(fill = guide_legend(title = "Raw Quantity of\nFeatures that are NA", reverse = TRUE)) +
+  #scale_fill_continuous(name = "New Legend Title") +
+  guides(guide_colorbar()) +
+  scale_y_discrete(limits = rev) +
+  scale_x_continuous(breaks = seq(2016, 2021, by = 1))
+
+
+max(na_count_names$na_values)
+```
+
+Months with most NA Values = December - March, which matches up with the growing season in Zambia.
+See Zambia's annual mean precipitation by month [here](https://climateknowledgeportal.worldbank.org/country/zambia/climate-data-historical#:~:text=Zambia%20experiences%20a%20predominantly%20sub,May%20to%20mid%2DAugust)
+
+```{r}
+na_count_names %>% 
+  ggplot(aes(x = year, y = month, fill = na_pct)) + 
+  geom_raster() +
+  ggtitle("NA Feature Values, Zambia 2016-2021") +
+  xlab("Year") +
+  ylab("Month") +
+  scale_fill_gradient2('pi0', low = "white", mid = "blue", high = "red", midpoint = 0) +
+  guides(fill = guide_legend(title = "Proportion of Features\nthat are NA", reverse = TRUE)) +
+  scale_y_discrete(limits = rev) +
+  scale_x_continuous(breaks = seq(2016, 2021, by = 1))
+
+# add more years to axis
+```
+
+The highest proportion of features that are NA is 12%, which is not substantial. These missing values will be interpolated in the Modeling process.
+
+```{r}
+na_count_summary <- na_count_names %>% 
+  group_by(month) %>% 
+  summarize(percentage_na = round(mean(na_pct), 0))
+  
+ggplot(na_count_summary, aes(x = month, y = percentage_na)) +
+  geom_point(aes(size = percentage_na, color = percentage_na)) +
+  scale_y_continuous(breaks = seq(0, 14, by = 2)) +
+  ggtitle("Proportion of NA Values by Month, 2016-2021") +
+  xlab("Month") +
+  ylab("Proportion of Values that are NA") +
+  theme(axis.title.x = element_text(color = "black", size = 11),
+         axis.text.x = element_text(face = "bold", color = "black", size = 10, 
+                                    margin = margin(t = 10, r = 0, b = 0, l = 0)),
+         axis.title.y = element_text(color = "black", size = 11),
+         axis.text.y = element_text(face = "bold", color = "black", size = 10),
+         plot.title = element_text(color="black", size = 15, face = "bold"),
+         panel.border = element_rect(colour = "black", fill = NA, size = 2)) + 
+  theme(axis.text.x = element_text(angle = 25)) +
+  guides(colour = guide_legend()) +
+  labs(colour = "Proportion of Values\nthat are NA", size = "Proportion of Values\nthat are NA")
+```
+
+
+
+
+
