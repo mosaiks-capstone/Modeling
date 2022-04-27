@@ -18,14 +18,20 @@ Then activate the environment with
 ```bash
 conda activate mosaiks
 ```
-Finally navigate to the diretory with the cloned modeling repo and run 
+Finally open this repository in Jupyter Lab by running 
 ```bash
 jupyter lab
 ```
 
 ## Getting Started
 
-Taylor etc
+There are two primary option to getting started, connecting to the MEDS server `taylor.bren.ucsb.edu`, or using personal compute. 
+
+### Taylor
+The notebooks are currently configured to be used on Taylor with file paths that lead to persistent data storage with features, administrative boundaries, crop area weights, and the crop yield data. 
+
+### Personal Compute
+To use personal compute, first clone this repository and configure your environemnt as described above. Following this, adjust the file paths in the top of the document to reflect your data directory location. This repository maintains the structure of the data sub folders and it is recomended to use this structure for your own data. If you are unable to produce your own features, pre-compiled features can be downloaded from the [MOSAIKS API](https://nadar.gspp.berkeley.edu/home/index/?next=/portal/index/).
 
 ## Notebooks
 
