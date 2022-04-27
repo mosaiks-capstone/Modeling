@@ -10,6 +10,8 @@ Features, administrative level boundaries, crop area, crop data
 
 ## Requirements
 
+Most modern persoanl computers will be able to run the modelling notebook. Despite this there is a minimum ammount of comfort with python needed in order to use or adapt this code responsibly, including installing python and managing environments. 
+
 A properly configured python environment can be created through the provided `environment.yml` file. To build this environment open a terminal and run 
 ```bash
 conda env create -f environment.yml
@@ -40,7 +42,7 @@ Modeling, rasters
 
 ## Constraints
 
-Compute power
+While most personal computers are able to run this analysis, users may still be constrained by the scope of their analysis (i.e., the number of features, the number of points, and the length of time) that is being modeled. It is possible to expand these variables sufficiently to push a persoanl computer past its resources. system monitoring may be needed, and it may be neccessary to implement aggresive memory managment strategies. 
 
 ## Future Work
 
