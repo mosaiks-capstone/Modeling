@@ -10,7 +10,18 @@ Features, administrative level boundaries, crop area, crop data
 
 ## Requirements
 
-requirments
+A properly configured python environment can be created through the provided `environment.yml` file. To build this environment open a terminal and run 
+```bash
+conda env create -f environment.yml
+```
+Then activate the environment with 
+```bash
+conda activate mosaiks
+```
+Finally navigate to the diretory with the cloned modeling repo and run 
+```bash
+jupyter lab
+```
 
 ## Getting Started
 
