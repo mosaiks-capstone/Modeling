@@ -6,11 +6,27 @@ The Modeling repository contains code for utilizing the features created in the 
 
 ## Datasets
 
-Features, administrative level boundaries, crop area, crop data
+No data is hosted directly in this repository. To request access to data please contact the CropMOSAIKS team. Below we describe the data that is used and in what context it is used. 
+
+### Features
+
+INSERT- what are RCFs? Random Convolutional Features can either be created from the featurization repository or downloaded from the MOSAIKS API. 
+
+### Crop data (labels)
+
+Yield data
+
+### Administrative level boundaries
+
+Zambia district level boundaries that match the sub-national crop yield data. These are used for finding which spatial points fall within the district boundaries to then summarise the features to the district boundary level. 
+
+### Crop area (weights)
+
+For weighted averages or simple spatial masking.
 
 ## Requirements
 
-Most modern persoanl computers will be able to run the modelling notebook. Despite this there is a minimum ammount of comfort with python needed in order to use or adapt this code responsibly, including installing python and managing environments. 
+Most modern personal computers will be able to run the modeling notebook. Despite this there is a minimum ammount of comfort with python needed in order to use or adapt this code responsibly, including installing python and managing environments. 
 
 A properly configured python environment can be created through the provided `environment.yml` file. To build this environment open a terminal and run 
 ```bash
@@ -27,7 +43,7 @@ jupyter lab
 
 ## Getting Started
 
-There are two primary option to getting started, connecting to the MEDS server `taylor.bren.ucsb.edu`, or using personal compute. 
+There are two primary options to getting started, connecting to the MEDS server `taylor.bren.ucsb.edu`, or using personal compute. 
 
 ### Taylor
 The notebooks are currently configured to be used on Taylor with file paths that lead to persistent data storage with features, administrative boundaries, crop area weights, and the crop yield data. 
