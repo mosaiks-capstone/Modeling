@@ -54,11 +54,12 @@ To use personal compute, first clone this repository and configure your environe
 ## Notebooks
 
 It is possible and even likely that the user supplied data will be of lower resolution than the feature data. 
-Modeling, rasters
+
+Modeling, raster clipping and cropo land percentage extraction, etc
 
 ## Constraints
 
-While most personal computers are able to run this analysis, users may still be constrained by the scope of their analysis (i.e., the number of features, the number of points, and the length of time) that is being modeled. It is possible to expand these variables sufficiently to push a persoanl computer past its resources. system monitoring may be needed, and it may be neccessary to implement aggresive memory managment strategies. 
+While most personal computers are able to run this analysis, users may still be constrained by the scope of their analysis (i.e., the number of features, the number of points, and the length of time) that is being modeled. It is possible to expand these variables sufficiently to push a personal computer past its resources. System monitoring may be needed, and it may be neccessary to implement aggresive memory managment strategies. 
 
 ## Future Work
 
