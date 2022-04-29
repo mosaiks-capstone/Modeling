@@ -62,7 +62,7 @@ While most personal computers are able to run this analysis, users may still be 
 
 ## Future Work
 
-suggestions on how to expand
+Suggestions on how to expand... We plan to expand this section towards the end of the project when we have a better idea of the current scope and the best ways to expand.
 
 ## Contributing
 
