@@ -8,19 +8,19 @@ The Modeling repository contains code for utilizing the features created in the 
 
 No data is hosted directly in this repository. To request access to data please contact the CropMOSAIKS team. Below we describe the data that is used and in what context it is used. 
 
-### Features
+### 1. Features
 
 INSERT- what are RCFs? Random Convolutional Features can either be created from the featurization repository or downloaded from the MOSAIKS API. 
 
-### Crop data (labels)
+### 2. Crop data (labels)
 
 Yield data
 
-### Administrative level boundaries
+### 3. Administrative level boundaries
 
 Zambia district level boundaries that match the sub-national crop yield data. These are used for finding which spatial points fall within the district boundaries to then summarise the features to the district boundary level. 
 
-### Crop area (weights)
+### 4. Crop area (weights)
 
 For weighted averages or simple spatial masking.
 
@@ -45,10 +45,10 @@ jupyter lab
 
 There are two primary options to getting started, connecting to the MEDS server `taylor.bren.ucsb.edu`, or using personal compute. 
 
-### Taylor
+### 1. Taylor
 The notebooks are currently configured to be used on Taylor with file paths that lead to persistent data storage with features, administrative boundaries, crop area weights, and the crop yield data. 
 
-### Personal Compute
+### 2. Personal Compute
 To use personal compute, first clone this repository and configure your environemnt as described above. Following this, adjust the file paths in the top of the document to reflect your data directory location. This repository maintains the structure of the data sub folders and it is recomended to use this structure for your own data. If you are unable to produce your own features, pre-compiled features can be downloaded from the [MOSAIKS API](https://nadar.gspp.berkeley.edu/home/index/?next=/portal/index/).
 
 ## Notebooks
