@@ -2,19 +2,19 @@
 
 ## Purpose
 
-The Modeling repository contains code for utilizing the features created in the Featurization repository, or downloaded from the [MOSAIKS API](https://nadar.gspp.berkeley.edu/home/index/?next=/portal/index/). Features created through Random Convolutional Features leave them agnostic to the task a user is interested in modeling. The CropMOSAIKS team have focused on modeling crop data, but these same features could be used to make prediction on forest cover, population, income, and many other variables. The key element to building a model is the data which the user needs to supply.
+The Modeling repository contains code for utilizing the features created in the Featurization repository, or downloaded from the [MOSAIKS API](https://nadar.gspp.berkeley.edu/home/index/?next=/portal/index/). Random Convolutional Featurization produces features that are agnostic to the task a user is interested in modeling. The CropMOSAIKS team has focused on modeling crop data, but these same features could be used to make prediction on forest cover, population, income, and many other variables. The key element to building a model is the data which the user needs to supply. This data should be in a standard tabular dataframe, with a spatial component included as column(s) (latitude and longitude) because the supplemnetal data is joined to the features spatially. 
 
 ## Datasets
 
-No data is hosted directly in this repository. To request access to data please contact the CropMOSAIKS team. Below we describe the data that is used and in what context it is used. 
+No feature data or crop data is hosted directly in this repository. To request access to Zambia feature data files, please contact the CropMOSAIKS team (individual GitHub accounts with contact information is included at the end of the main organization README). Below we describe the feature data and crop data and in what context it is used. 
 
 ### 1. Features
 
-INSERT- what are RCFs? Random Convolutional Features can either be created from the featurization repository or downloaded from the MOSAIKS API. 
+Random Convolutional Features are a way to encode a geospatial location with information based on the satellite image of that location. These features reflect information such as landscape colors, delimination between colors (like the edge of a field, forest, or building that appears as a line from space), and combinations of colors such as red next to green. In a feature data frame, each row represnts an image, and each feature represents a column. Each cell contains a numerical value for that feature at that location, which is later statistically coorelated with the numerical value of crop yield data for that location during the modeling step (or other data provided by the user). Random Convolutional Features can either be created from the featurization repository or downloaded from the MOSAIKS API. 
 
 ### 2. Crop data (labels)
 
-Yield data
+Zambia maize production are forecast yields in units of metric tonnes/hectare. These units are derived from the expected production reported by the farmers each year in units of metric tonnes, divided by the amount of hectares of farmland in that district. This data was collected by the [Central Statistics Office of Zambia (CSO)](https://www.zamstats.gov.zm/). These data are forecasted from pre-harvest survey data collected in May preceding the harvest season (July-August). The forecast model is conducted in Stata, a general purpose statistical software, and adjusted with post-harvest season survey data. There is an unknown degree of uncertainty in this forecast data as the model process and parameters are unknown.
 
 ### 3. Administrative level boundaries
 
@@ -22,7 +22,7 @@ Zambia district level boundaries that match the sub-national crop yield data. Th
 
 ### 4. Crop area (weights)
 
-For weighted averages or simple spatial masking.
+For weighted averages or simple spatial masking. We spatially mask for crop area in the Modeling repository in order to optimize our model for crop yields. This data is specific to our task, and other spatial data should be applied if a user is interested in spatially masking for another task. A portion of the cropped area that remains after the mask is applied overlaps with certain cells in our subsetted unform grid. During the modeling process later, the crop land percentage in each cell determines the weight of the area in the model. More cropland in a cell translates to more weight in the model because that land contains more critical feature information. 
 
 ## Requirements
 
