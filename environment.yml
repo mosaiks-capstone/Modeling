@@ -1,4 +1,4 @@
-name: mk_waves
+name: mosaiks
 channels:
   - conda-forge
   - defaults
@@ -16,3 +16,7 @@ dependencies:
   - netcdf4
   - jupyterlab-system-monitor
   - statsmodels
+  - pyarrow
+  - scikit-learn
+  - scipy
+  - seaborn 
