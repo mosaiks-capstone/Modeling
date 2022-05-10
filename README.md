@@ -68,3 +68,6 @@ Suggestions on how to expand... We plan to expand this section towards the end o
 ## Contributing
 
 code of conduct, access, API, etc [TC: Also great to acknowledge where things came from, including acknowledging Kathy Baylis and Protensia directly, as well as Caleb and others at PC and the Rolf et al team and the API.]
+
+## TC overall comments
+Overall, this README is great but it needs more direction for a user to navigate the repo. What do all these different notebooks do? Which should I start with? How do they relate to one another? What do the subfolders like `subsetting/` and `data/` do? This orientation is a really important component of a README and is currently missing. 
