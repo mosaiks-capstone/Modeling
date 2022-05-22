@@ -55,19 +55,31 @@ To use personal compute, first clone this repository and configure your environe
 
 While most personal computers are able to run this analysis, users may still be constrained by the scope of their analysis (i.e., the number of features, the number of points, and the length of time) that is being modeled. It is possible to expand these variables sufficiently to push a personal computer past its resources. System monitoring may be needed, and it may be neccessary to implement aggresive memory management strategies. For example, a user might want or need to adjust existing code chunks to execute computationally heavy code in smaller steps.
 
-## Notebooks
+## Notebooks and Folders
 
-**Starting notebook & main notebook:** crop_modeling_predicitions_2014_2021.ipynb\
+#### Starting Notebook & Primary Notebook: crop_modeling_predictions_2014_2021.ipynb
+
 This notebook walks a user through the modeling process from start to finish:
 1. Select parameters for the model (satellite, bands, number of points, crop mask, temporal range, etc.)
-2. Import, process, and join Zambia's administrative boundary data, feature data, and crop yield data\
-  - It is possible and even likely that the user supplied data will be of lower resolution than the feature data. As previously mentioned, the crop data used in this application of the MOSAIKS pipeline is at the district-level.
+2. Import, process, and join Zambia's administrative boundary data, feature data, and crop yield data. It is possible and even likely that the user supplied data will be of lower resolution than the feature data. As previously mentioned, the crop data used in this application of the MOSAIKS pipeline is at the district-level.
 4. Process NA values (convert infinity values to NA, impute NA values, and drop NA values)
 5. Execute visual and statisical data checks along the way
 6. Summarize data to the spatial resolution of the crop data (or user-supplied data)
 7. Split the data into train and test sets
 8. Train the model and visualize results prediction maps
 9. Statistically analyze the model's performance with residual maps and various R and R^2 metrics 
+
+#### NA processing: `na_summary` folder
+
+This is a workflow established to determine the proportion of NA values within the feature data that was created in the [Featurization](https://github.com/cropmosaiks/Featurization) repository in this organization. This workflow is documented in this repository because it helps inform how to process the data to produce the best model results. The primary reason NA values are present in the features is due to cloud cover over Zambia during the rainy season, which lasts approximately from November to April. The folder `na_summary` contains two folders:\
+- `na_exploration_15k.ipynb`: start with this document to read in features files for ~15,000 points. Unless the user is working on the Taylor server, please change the file paths as necessary. This process is executed in Python because reading in the feature files and appending them into a dataframe is more efficeint than in R. 
+- `na_summary_join.Rmd`: Switch to this notebook after executing the code in `na_exploration_15k.ipynb`. Unless the user is working on the Taylor server, please change the file paths as necessary. Use it to convert the feature daatframe data and the embedded NA values into tidy format, execute summary statistics, and visualize the results as plots. With these summary statistics, we are able to identify potential sources of NA values and best understand how to impute NA values, drop NA values, or subset the feature data before training the model in order to geenrate the best possible model performance. This process is executed in R because the CropMOSAIKS team felt that R offers more flexibility for visualization.
+
+#### Crop land processing: `subsetting` folder
+
+This is a workflow established to process the crop land in Zambia. This folder contains two documents:\
+- `cropped_area_subset.ipynb`: processes feature data for Zambia to produce a subset feature file that represents Zambia's crop land, weighted by crop area as approxmately 20,000 points
+- `raster_clipping.ipynb`: processes feature data for Zambia to produce a subset feature files that represents Zambia's crop alnd, weighted by crop area, as approxmimately 628,000 points 
 
 #### To be documented by CropMOSAIKS still:
 raster clipping
