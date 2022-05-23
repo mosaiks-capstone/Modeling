@@ -41,6 +41,21 @@ Finally open this repository in Jupyter Lab by running
 jupyter lab
 ```
 
+If using `taylor.bren.ucsb.edu`, the process to install an environment are more involved but the general principle is the same. The following code should be run one line at a time.
+
+```console
+bash                                                   # this will open bash and allow you to navigate directories more easily
+cd <dir with environment file>                         # navigate to the directory with this repository clone
+conda env create -f environment.yml                    # create new anaconda environment
+conda env list                                         # show available environments
+conda activate <env name>                              # activate the new environments
+conda install ipykernel                                # install ipykernel into new environment
+ipython kernel install --user --name=<name_for_kernel> # create and name the kernel
+conda deactivate                                       # deactivate environment
+```
+
+When you open a notebook, the new kernel `<name_for_kernel>` will be available to use.
+
 ## Getting Started
 
 There are two primary options to getting started. If you have access to the Master of Environmental Data Science server `taylor.bren.ucsb.edu`, that is the preferred platform. Otherwise, you will need to use personal compute. 
