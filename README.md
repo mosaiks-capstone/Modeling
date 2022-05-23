@@ -29,15 +29,15 @@ Cropped area in Zambia is used for weighted averages and spatial masking. We spa
 Most modern personal computers will be able to run the modeling notebook once access to the user's labeled data is obtained. However, there is a minimum ammount of comfort with Python needed in order to use or adapt this code, including installing Python and managing environments. 
 
 A properly configured python environment can be created through the provided `environment.yml` file. To build this environment open a terminal and run 
-```bash
+```console
 conda env create -f environment.yml
 ```
 Then activate the environment with 
-```bash
+```console
 conda activate mosaiks
 ```
 Finally open this repository in Jupyter Lab by running 
-```bash
+```console
 jupyter lab
 ```
 
