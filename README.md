@@ -43,7 +43,7 @@ Finally open this repository in Jupyter Lab by running
 jupyter lab
 ```
 
-If using `taylor.bren.ucsb.edu`, the process to install an environment are more involved but the general principle is the same. The following code should be run one line at a time.
+If a UCSB student in Bren School of Environmental Science & Management using `taylor.bren.ucsb.edu`, the process to install an environment are more involved but the general principle is the same. The following code should be run one line at a time.
 
 ```console
 bash                                                   # this will open bash and allow you to navigate directories more easily
