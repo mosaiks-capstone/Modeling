@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This Modeling repository is the second repository a user should utilize, after generating features from satellite imagery through the [Featurization](https://github.com/cropmosaiks/Featurization) repository. This Modeling repository contains code for utilizing the features created in the Featurization repository or features downloaded from the [MOSAIKS API](https://siml.berkeley.edu). The Random Convolutional Featurization (RCF) process conducted in the Featurization repository produces features that are agnostic to the task a user is interested in modeling. In this repository, the CropMOSAIKS team has focused on using RCF to predict crop yields, but these same features could be used to make predictions of forest cover, population, income, or many other variables visible from space. The key element to building a model is the data which the user needs to supply. This data should be in a standard tabular dataframe, with a spatial component included as column(s) (latitude and longitude) because this data is joined to the feature data spatially. In this repository, the CropMOSAIKS team pairs feature dtaa with crop yield data for the country of Zambia. Due to data availability restrictions, this crop data is not provided with these notebooks. Regardless, the code and documentation in this repository is designed to guide the user in spatially joining the features to the user's data of interest, executing the linear regression step to train the model, applying the trained model to "out-of-bag" data, and statistically analyzing the results.
+This Modeling repository is the second repository a user should utilize, after generating features from satellite imagery through the [Featurization](https://github.com/cropmosaiks/Featurization) repository. This Modeling repository contains code for utilizing the features created in the Featurization repository or features downloaded from the [MOSAIKS API](https://siml.berkeley.edu). The Random Convolutional Featurization (RCF) process conducted in the Featurization repository produces features that are agnostic to the task a user is interested in modeling. In this repository, the CropMOSAIKS team has focused on using RCF to predict crop yields, but these same features could be used to make predictions of forest cover, population, income, or many other variables visible from space. The key element to building a model is the data which the user needs to supply. This data should be in a standard tabular dataframe, with a spatial component included as column(s) (latitude and longitude) because this data is joined to the feature data spatially. In this repository, the CropMOSAIKS team pairs feature data with crop yield data for the country of Zambia. Due to data availability restrictions, this crop data is not provided with these notebooks. Regardless, the code and documentation in this repository is designed to guide the user in spatially joining the features to the user's data of interest, executing the linear regression step to train the model, applying the trained model to "out-of-bag" data, and statistically analyzing the results.
 
 ## Datasets
 
@@ -14,7 +14,9 @@ Random Convolutional Features are a way to encode a geospatial location with inf
 
 ### 2. Crop data (labels)
 
-Zambia maize production data is in the form of crop forecast yields in units of metric tonnes/hectare. These units are derived from the expected production reported by the farmers each year in units of metric tonnes, divided by the amount of hectares of farmland planted with maize in that district. This data was collected by the [Central Statistics Office of Zambia (CSO)](https://www.zamstats.gov.zm/). These data are forecasted from survey data collected in May preceding the harvest season (July-August). The forecast model is conducted in Stata, a general purpose statistical software, and adjusted with post-harvest season survey data. There is an unknown degree of uncertainty in this forecast data as the model process and parameters are unknown. Due to data distribution restrictions, this data is not available for download by the public. Any data the user wishes to subsitute should be spatial data associated with the country of Zambia. The spatial resolution of the crop data is at the district-level, but higher resolution data is acceptable and will likely result in improved model perfomance.
+Due to data distribution restrictions, the district-level crop data used in our model is not available for public download. Coarse resolution province-level crop data is available for download from 1987 - 2017 at the [Zambia Data Portal](https://zambia.opendataforafrica.org/).
+
+Zambia maize production data is in the form of crop forecast yields in units of metric tonnes/hectare. These units are derived from the expected production reported by the farmers each year in units of metric tonnes, divided by the amount of hectares of farmland planted with maize in that district. This data was collected by the [Central Statistics Office of Zambia (CSO)](https://www.zamstats.gov.zm/). These data are forecasted from survey data collected in May preceding the harvest season (July-August). The forecast model is conducted in Stata, a general purpose statistical software, and adjusted with post-harvest season survey data. There is an unknown degree of uncertainty in this forecast data as the model process and parameters are unknown.  The spatial resolution of the crop data is at the district-level, but higher resolution data is acceptable and will likely result in improved model perfomance.
 
 ### 3. Administrative level boundaries
 
@@ -72,7 +74,7 @@ While most personal computers are able to run this analysis, users may still be 
 
 ## Notebooks and Folders
 
-#### Starting Notebook & Primary Notebook: crop_modeling_predictions_2014_2021.ipynb
+#### Starting Notebook & Primary Notebook: `crop_modeling_predictions_2014_2021.ipynb`
 
 This notebook walks a user through the modeling process from start to finish:
 1. Select parameters for the model (satellite, bands, number of points, crop mask, temporal range, etc.)
@@ -90,15 +92,9 @@ This is a workflow established to determine the proportion of NA values within t
 - `na_exploration_15k.ipynb`: start with this document to read in features files for ~15,000 points. Unless the user is working on the Taylor server, please change the file paths as necessary. This process is executed in Python because reading in the feature files and appending them into a dataframe is more efficeint than in R. 
 - `na_summary_join.Rmd`: Switch to this notebook after executing the code in `na_exploration_15k.ipynb`. Unless the user is working on the Taylor server, please change the file paths as necessary. Use it to convert the feature daatframe data and the embedded NA values into tidy format, execute summary statistics, and visualize the results as plots. With these summary statistics, we are able to identify potential sources of NA values and best understand how to impute NA values, drop NA values, or subset the feature data before training the model in order to geenrate the best possible model performance. This process is executed in R because the CropMOSAIKS team felt that R offers more flexibility for visualization.
 
-#### Crop land processing: `subsetting` folder
+#### `Data` folder
 
-This is a workflow established to process the crop land in Zambia. This folder contains two documents:\
-- `cropped_area_subset.ipynb`: processes feature data for Zambia to produce a subset feature file that represents Zambia's crop land, weighted by crop area as approxmately 20,000 points
-- `raster_clipping.ipynb`: processes feature data for Zambia to produce a subset feature files that represents Zambia's crop alnd, weighted by crop area, as approxmimately 628,000 points 
-
-#### To be documented by CropMOSAIKS still:
-raster clipping
-crop land percentage extraction, etc 
+This folder and its subfolders are largely placeholders for where to put data when working on a local computer.
 
 ## Future Work
 
@@ -122,6 +118,3 @@ The crop yield data for Zambia used in this application of the MOSAIKS approach 
 We would like to thank the members of the MPC team, Caleb Robinson and Tom Augspurger, that wrote much of the base code for this repository that provided the foundation for the CropMOSAIKS team to extend the MOSAIKS approach. 
 
 For rules and regulations for this organization, please see the [Code of Conduct](https://github.com/cropmosaiks/.github/blob/main/CODE_OF_CONDUCT.md)
-
-## TC overall comments
-Overall, this README is great but it needs more direction for a user to navigate the repo. What do all these different notebooks do? Which should I start with? How do they relate to one another? What do the subfolders like `subsetting/` and `data/` do? This orientation is a really important component of a README and is currently missing. 
