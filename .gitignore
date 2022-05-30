@@ -145,3 +145,4 @@ data/weights/*
 
 images/*
 !images/*.gitkeep
+!images/README.md
