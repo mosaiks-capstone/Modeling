@@ -30,6 +30,11 @@ Cropped area in Zambia is used for weighted averages and spatial masking. We spa
 
 Most modern personal computers will be able to run the modeling notebook once access to the user's labeled data is obtained. However, there is a minimum ammount of comfort with Python needed in order to use or adapt this code, including installing Python and managing environments. 
 
+<details open>
+  <summary> 
+    Using personal computer
+  </summary>
+  
 A properly configured python environment can be created through the provided `environment.yml` file. To build this environment open a terminal and run 
 ```console
 conda env create -f environment.yml
@@ -42,9 +47,14 @@ Finally open this repository in Jupyter Lab by running
 ```console
 jupyter lab
 ```
+</details>
 
+<details open>
+  <summary> 
+    Using <code class="notranslate">taylor.bren.ucsb.edu</code>
+  </summary>
+  
 If a UCSB student in Bren School of Environmental Science & Management using `taylor.bren.ucsb.edu`, the process to install an environment are more involved but the general principle is the same. The following code should be run one line at a time.
-
 ```console
 bash                                                   # this will open bash and allow you to navigate directories more easily
 cd <dir with environment file>                         # navigate to the directory with this repository clone
@@ -55,8 +65,9 @@ conda install ipykernel                                # install ipykernel into 
 ipython kernel install --user --name=<name_for_kernel> # create and name the kernel
 conda deactivate                                       # deactivate environment
 ```
-
+  
 When you open a notebook, the new kernel `<name_for_kernel>` will be available to use.
+</details>
 
 ## Getting Started
 
