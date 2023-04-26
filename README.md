@@ -1,4 +1,4 @@
-# CropMOSAIKS Modeling Repository
+# MOSAIKS Modeling Repository
 
 ## Purpose
 
