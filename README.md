@@ -18,7 +18,7 @@ Random Convolutional Features can be generated using either the Featurization re
 
 Due to data distribution restrictions, the survey enumeration area (SEA) level agricultural data used in our model is not available for public download. Coarse resolution province-level crop data is available for download from 1987 - 2017 at the [Zambia Data Portal](https://zambia.opendataforafrica.org/).
 
-Here's a reformatted version of the variable list:
+The following is a synopsis of the variables encompassed in the Zambia agricultural survey data, which correspond to the variables that represent the outcomes of interest in the modeling procedure:
 
 | Variable name | Description | Data type |
 | --- | --- | --- |
@@ -110,29 +110,33 @@ When you open a notebook, the new kernel `<name_for_kernel>` will be available t
 
 There are two primary options to getting started. If you have access to the Master of Environmental Data Science server `tsosie.bren.ucsb.edu`, that is the preferred platform. Otherwise, you will need to use personal compute. 
 
-### 1. Using Tsosie
-The notebooks are currently configured to be used on Tsosie with file paths that lead to persistent data storage with features and agricultural data. If needed, file paths can be adjusted at the top of the notebook to reflect your data directory location.
+### 1. Usage on Tsosie
+The notebooks are currently configured for use on Tsosie, with file paths that lead to persistent data storage containing features and agricultural data. If necessary, the file paths can be adjusted at the top of the notebook to reflect your data directory location.
 
-### 2. Using Personal Compute
-To use personal compute, first clone this repository and configure your environemnt as described above. Following this, adjust the file paths in the top of the document to reflect your data directory location. This repository maintains the structure of the data sub folders and it is recomended to use this structure for your own data. If you are unable to produce your own features, pre-compiled features can be downloaded from the [MOSAIKS API](https://siml.berkeley.edu).
+### 2. Usage on Personal Compute
+To use personal compute, first clone this repository and configure your environemnt as described above. Following this, adjust the file paths at the top of the document to reflect your data directory location. This repository maintains the structure of the data subfolders, and it is recomended to use this structure for your own data. If you are unable to produce your own features, pre-compiled features can be downloaded from the [MOSAIKS API](https://siml.berkeley.edu).
 
 #### Constraints
 
-While most personal computers are able to run this analysis, users may still be constrained by the scope of their analysis (i.e., the number of features, the number of points, and the length of time) that is being modeled. It is possible to expand these variables sufficiently to push a personal computer past its resources. System monitoring may be needed, and it may be neccessary to implement aggresive memory management strategies. For example, a user might want or need to adjust existing code chunks to execute computationally heavy code in smaller steps.
+Although this analysis can generally run on most personal computers, users may still face constraints due to the scope of their analysis, including the number of features, points, and length of time being modeled. These factors can potentially exhaust the resources of a personal computer. Therefore, system monitoring may be necessary, and aggressive memory management strategies may need to be implemented. For instance, users may need to modify existing code chunks to execute computationally heavy code in smaller steps.
 
 ## Notebooks and Folders
 
-#### Starting Notebook & Primary Notebook: [insert starting primary notebook here]
+#### Starting Notebook for Data Preprocessing & Imputation: [insert preprocessing notebook here]
+  
+This notebook serves as a guide for users to preprocess and impute data in preparation for modeling. The following steps are outlined:
+  1. Import, process, and merge feature data and agricultural data. The resolution of the user-supplied data may be lower than that of the feature data. Agricultural data used in this MOSAIKS pipeline application pertains to the SEA-level.
+  2. Process NA values (convert infinity values to NA, impute NA values, and drop NA values).
+  3. Perform statistical and visual data checks during the process.
+  4. Export processed and merged geodataframe to be utilized in subsequent modeling stages. 
 
-This notebook walks a user through the modeling process from start to finish:
-1. Select parameters for the model (satellite, bands, number of points, temporal range, etc.)
-2. Import, process, and join feature data and agricultural data. It is possible and even likely that the user supplied data will be of lower resolution than the feature data. As previously mentioned, the agricultural data used in this application of the MOSAIKS pipeline is at the SEA-level.
-4. Process NA values (convert infinity values to NA, impute NA values, and drop NA values)
-5. Execute visual and statisical data checks along the way
-6. Summarize data to the spatial resolution of the agricultural data (or user-supplied data)
-7. Split the data into train and test sets
-8. Train the model and visualize results prediction maps
-9. Statistically analyze the model's performance with residual maps and various R and R^2 metrics 
+### Secondary Notebook for Modeling: [insert modeling notebook here]
+  
+This notebook serves as a guide for users to model after data preprocessing and imputation:
+  
+1. Perform a data split into distinct train and test sets to prevent overfitting and ensure unbiased results.
+2. Train the model, produce prediction maps, and visually analyze the model's performance.
+3. Statistically analyze the model's performance with residual maps and evaluation of metrics such as the R and R^2 coefficients.
 
 #### `Data` folder
 
@@ -140,19 +144,34 @@ This folder and its subfolders are largely placeholders for where to put data wh
 
 ## Future Work
 
-As previously discussed, the MOSAIKS pipeline is task-agnostic, meaning that any spatial data of interest can be joined to feature data in order to train a model and make predictions over both time and space. The model's perfomance is measured in general using multiple R and R^2 metrics. Our best model is the model thay results in the highest deameaned R value of [insert best performing value]. This value is **not** suspected to be the result of overfitting. The demeaned R^2 value is [insert best performing value], meaning our model explains approximately [insert percentage]% of the variance in the [insert best performing variable name]. While this value indicates a relatively strong predictive performance compared to other models that predict over time, there is certainly room for improvement. Suggestions for improving model performance are as follows:\
-- Increase the number of training points fed into the model by adding more years of data. This can be acheived by featurizing more years of satellite data. The satellite used in this analysis (Sentinel 2) restrict the years and therefore restrict the training N because the lifetime of these satellites starts in 2015. By using different satellites that go further back in time, such as Landsat 5, one can adjust this notebook's code to model over more time. Similarly, if a user has access to more recent years of agricultural data (2022 and beyond), the number of years and therefore points can be expanded on the more recent end of the timeline.
-- Test if the agricultural predictions for Zambia prior to 2022 can be used to detect agricultural fluctuations due to known climatic anomalies such as drought. If the predictions for these years show significant correlation with precipitation and temperature, this model can be improved upon and used as a tool for governments, community leaders, farmers, and food security initiatives to predict future [insert appropriate] for Zambia. This tool was demonstrated by producing predictions for all years used to train the model. The ultimate goal is to provide more foresight regarding agricultural yields and indicators prior to harvest, so farmers and leaders can adjust crop imports, exports, and costs. 
-- A report presenting a correlational analysis between estimated agricultural yields/indicators and high-resolution, publicly available climate indicators (i.e., temperature and precipitation). This differs from the preceding suggestion because this correlational analysis relates to general temperature and precipitation data, not anomalies. Ideally, this report should be accessible in all dominant languages of Zambia in order to include local farmers and leaders who may not be fluent in English. 
+As previously stated, the MOSAIKS pipeline is task-agnostic, meaning that it can be applied to any spatial data of interest, allowing for the training of a model and prediction of both temporal and spatial outcomes. The model's perfomance is assessed using various R and R^2 metrics. Our top-performing model obtained the following deameaned R values for the  corresponding variables: 
+ [insert best performing values/variables] 
+  
+These values are not believed to be the result of overfitting. The demeaned R-squared values indicate the degree to which the model explains the variance in the following variables, approximately as percentages:
+[insert percentages/variables] 
+  
+Although these values demonstrate a comparatively robust predictive performance compared to other time-series models, there remains ample opportunity for further refinement. To enhance the training dataset and improve model performance, consider the following recommendations:\
+  
+- Increase the number of training samples by incorporating more years of satellite data. This can be accomplished by extracting features from additional satellites, such as Landsat 5, which extends further back in time.
+- In case of availability of recent agricultural data beyond 2022, incorporating these additional years of data can enhance the dataset and enable the model to capture more recent trends.
+  
+- Investigate if the agricultural predictions for Zambia prior to 2022 can be used to detect agricultural fluctuations resulting from known climatic anomalies like drought. A thorough evaluation of the model's predictive ability for these years can reveal significant correlations with precipitation and temperature data, further enhancing the tool's accuracy. By achieving this, the model can be utilized by governments, community leaders, farmers, and food security initiatives to anticipate future [insert appropriate] for Zambia. The tool's potential was already demonstrated by generating predictions for all years used to train the model. Ultimately, the goal is to provide more foresight into agricultural yields and indicators before harvest, enabling farmers and leaders to adjust crop imports, exports, and costs accordingly.
+  
+- A report presenting a correlational analysis between estimated agricultural yields/indicators and high-resolution, publicly available climate indicators (i.e., temperature and precipitation). This report is distinct from the previous suggestion as it focuses on general climate data, rather than anomalies. To ensure accessibility, the report should be made available in all prominent languages of Zambia, to cater to local farmers and leaders who may not be proficient in English.
+  
 - Stack additional bands to Sentinel 2 in addition to visible spectrum (2,3,4). Examples include short wave infrared (12, 8, and 4), and red edge
+ 
 - Utilizing notebook for 0.01 degree grid cells (an equal angle grid)
+  
 - Increasing the cloud cover limit from 10% to 15% or more
+  
 - Filtering cloud cover at the level of the resolution you are featurizing (0.01 degree) rather than at the image level
 
 ## Contributing
 
-This project was completed on June 9th, 2023, but suggestions for improvements to the code or documentation is welcome and encouraged. Please submit questions, comments, or code via issues or pull requests on either of the repositories. To correspond with the data scientists who produced these materials that extend the MOSAIKS approach, please see their personal GitHub accounts at the bottom of the organization's README and feel free to contact them via email. Additionally, you can contact the authors of the [MOSAIKS paper, Rolf et al. 2021](https://www.nature.com/articles/s41467-021-24638-z) with questions about the process.
+This project was completed on June 9th, 2023. However, we welcome and encourage suggestions for improvements to the code or documentation. Please submit any questions, comments, or code changes via issues or pull requests on either of the repositories. To communicate with the data scientists responsible for this project, please refer to their personal GitHub accounts listed at the bottom of the organization's README and feel free to contact them via email. You may also contact the authors of the [MOSAIKS paper, Rolf et al. 2021](https://www.nature.com/articles/s41467-021-24638-z) with any questions regarding the process.
 
-The crop yield data for Zambia used in this application of the MOSAIKS approach was generously provided by the [Kathy Baylis lab at UC Santa Barbara](https://baylislab.ace.illinois.edu/), and Protensia Hudunka was exceptionally helpful in providing metadata and contextual information regarding how this model might be helpful to the governing bodies of Zambia. This crop data is not available to the public. However, this overall pipeline and model is generalizable and therefore can be used on any data that can be spatially joined the feature data.
 
-We would like to thank the members of the 2022 CropMOSAIKS team, that wrote much of the base code for this repository that provided the foundation for the MOSAIKS team to extend the MOSAIKS approach. We would like to extend a special thanks to Cullen Molitor, who offered the MOSAIKS team support throughout the duration of this project.
+The agricultural data used in this MOSAIKS approach for Zambia was generously provided by the [Kathy Baylis lab at UC Santa Barbara](https://baylislab.ace.illinois.edu/), for which Protensia Hadunka offered exceptional support and contextual information on how this model could be helpful to Zambia's governing bodies. It should be noted that this agricultural data is not publicly available. However, this MOSAIKS pipeline and model are generalizable, and can be applied to any data that can be spatially joined with the feature data.
+
+We express our gratitude to the 2022 CropMOSAIKS team for developing the base code that served as the foundation for the MOSAIKS team to extend the MOSAIKS approach. We would also like to thank Cullen Molitor for providing continuous support to the MOSAIKS team throughout the duration of this project.
