@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This Modeling repository is the second repository a user should utilize, after generating features from satellite imagery through the [Featurization](https://github.com/cropmosaiks/Featurization) repository. This Modeling repository contains code for utilizing the features created in the Featurization repository or features downloaded from the [MOSAIKS API](https://siml.berkeley.edu). The Random Convolutional Featurization (RCF) process conducted in the Featurization repository produces features that are agnostic to the task a user is interested in modeling. In this repository, the MOSAIKS team has focused on using RCF to predict [insert final interest variables here], but these same features could be used to make predictions on forest cover, population, or many other variables visible from space. The key element to building a model is the data which the user needs to supply. This data should be in a standard tabular dataframe, with a spatial component included as column(s) (latitude and longitude) because this data is joined to the feature data spatially. In this repository, the MOSAIKS team pairs feature data with agricultural survey data for the country of Zambia. Due to data availability restrictions, this agricultural data is not provided with these notebooks. Regardless, the code and documentation in this repository is designed to guide the user in spatially joining the features to the user's data of interest, executing the linear regression step to train the model, applying the trained model to "out-of-bag" data, and statistically analyzing the results.
+This Modeling repository is the second repository a user should employ, after generating features from satellite imagery through the [Featurization](https://github.com/cropmosaiks/Featurization) repository. This Modeling repository contains code for utilizing the features created in the Featurization repository, or features downloaded from the [MOSAIKS API](https://siml.berkeley.edu). The Random Convolutional Featurization (RCF) process conducted in the Featurization repository produces features that are agnostic to the task a user is interested in modeling. In this repository, the MOSAIKS team has focused on using RCF to predict [insert final interest variables here], but these same features could be used to make predictions on forest cover, population, or many other variables visible from space. The key element to building a model is the data which the user needs to supply. This data should be in a standard tabular dataframe, with a spatial component included as column(s) (latitude and longitude) because this data is joined to the feature data spatially. In this repository, the MOSAIKS team pairs feature data with agricultural survey data for the country of Zambia. Due to data availability restrictions, this agricultural data is not provided with these notebooks. Regardless, the code and documentation in this repository is designed to guide the user in spatially joining the features to the user's data of interest, executing the linear regression step to train the model, applying the trained model to "out-of-bag" data, and statistically analyzing the results.
 
 ## Datasets
 
@@ -10,13 +10,58 @@ No feature data or crop data is hosted directly in this repository. To request a
 
 ### 1. Features
 
-Random Convolutional Features are a way to encode a geospatial location with information based on the satellite image of that location. These features reflect information such as landscape colors, delimination between colors (like the edge of a field, forest, or building that appears as a line from space), and combinations of colors such as blue next to green. In a feature data frame, each row represents an image, and each feature represents a column. Each cell contains a numerical value for that feature at that location, which is statistically correlated with the numerical value of agricultural data for that location during the modeling step (or other data provided by the user). Random Convolutional Features can either be created from the featurization repository in this organization, or downloaded from the [MOSAIKS API](https://nadar.gspp.berkeley.edu/home/index/?next=/portal/index/). For more information about featurization and the MOSAIKS pipeline, please see [this paper by Rolf et al. 2021.](https://www.nature.com/articles/s41467-021-24638-z).
+Random Convolutional Features represent a means of encoding geospatial locations with information based on satellite imagery. These features capture a broad range of detail, such as the color palettes of landscapes, as well as the delineation between colors (e.g., the boundaries between fields, forests, or buildings that are visible from space) and color combinations (e.g., blue next to green). In a feature data frame, each row corresponds to an image, while each column corresponds to a feature. Each cell within the data frame contains a numerical value that corresponds to the feature at that specific location. This value is statistically correlated with the agricultural data employed by the MOSAIKS team or other relevant data provided by the user during the modeling process.
+
+Random Convolutional Features can be generated using either the Featurization repository in this organization or by downloading them from the [MOSAIKS API](https://nadar.gspp.berkeley.edu/home/index/?next=/portal/index/). For further information regarding featurization and the MOSAIKS pipeline, readers are encourages to refer to [this paper by Rolf et al. (2021.)](https://www.nature.com/articles/s41467-021-24638-z).
 
 ### 2. Agricultural Data data (labels)
 
 Due to data distribution restrictions, the survey enumeration area (SEA) level agricultural data used in our model is not available for public download. Coarse resolution province-level crop data is available for download from 1987 - 2017 at the [Zambia Data Portal](https://zambia.opendataforafrica.org/).
 
-Zambia maize production data is in the form of crop forecast yields in units of metric tonnes/hectare. These units are derived from the expected production reported by the farmers each year in units of metric tonnes, divided by the amount of hectares of farmland planted with maize in that district. This data was collected by the [Central Statistics Office of Zambia (CSO)](https://www.zamstats.gov.zm/). These data are forecasted from survey data collected in May preceding the harvest season (July-August). The forecast model is conducted in Stata, a general purpose statistical software, and adjusted with post-harvest season survey data. There is an unknown degree of uncertainty in this forecast data as the model process and parameters are unknown.  The spatial resolution of the crop data is at the district-level, but higher resolution data is acceptable and will likely result in improved model perfomance. **this needs to be updated with specific information on our finalized variables**
+Here's a reformatted version of the variable list:
+
+| Variable name | Description | Data type |
+| --- | --- | --- |
+| sea_unq | SEA unique identifier | string |
+| year | Date | date |
+| total_area_planted_ha | Area planted in hectares | numeric |
+| total_area_harv_ha | Total area harvested in hectares | numeric |
+| total_area_lost_ha | Total area of crops lost in hectares | numeric |
+| total_harv_kg | Total kilograms harvested | numeric |
+| yield_kgha | Total kilograms maize per area planted maize | numeric |
+| Frac_area_harv | Total area harvested divided by total area planted in hectares | numeric |
+| frac_area_loss | Total area lost divided by total area planted in hectares | numeric |
+| area_lost_fire | Total area lost due to fire in hectares | numeric |
+| maize | Total maize harvested in kilograms | numeric |
+| groundnuts | Total groundnuts harvested in kilograms | numeric |
+| mixed_beans | Total mixed beans harvested in kilograms | numeric |
+| popcorn | Total popcorn harvested in kilograms | numeric |
+| sorghum | Total sorghum harvested in kilograms | numeric |
+| soybeans | Total soybeans harvested in kilograms | numeric |
+| sweet_potatoes | Total sweet potatoes harvested in kilograms | numeric |
+| bunding | Total area tilled using bunding in hectares | numeric |
+| frac_loss_drought | Drought loss divided by area planted in hectares | numeric |
+| frac_loss_flood | Flood loss divided by area planted in hectares | numeric |
+| frac_loss_animal | Animal loss divided by area planted in hectares | numeric |
+| frac_loss_pests | Pest loss divided by area planted in hectares | numeric |
+| frac_loss_soil | Soil loss divided by area planted in hectares | numeric |
+| frac_loss_fert | Fertilizer loss divided by area planted in hectares | numeric |
+| prop_till_plough | Area ploughed divided by area planted in hectares | numeric |
+| prop_till_ridge | Area ridged divided by area planted in hectares | numeric |
+| prop_notill | Area not tilled divided by area planted in hectares | numeric |
+| prop_hand | Area not hand tilled divided by area planted in hectares | numeric |
+| log_maize | Log of total kilograms maize per area maize | numeric |
+| log_sweetpotatoes | Log of total kilograms sweet potatoes per area sweet potatoes | numeric |
+| log_groundnuts | Log of total kilograms groundnuts per area groundnuts | numeric |
+| log_soybeans | Log of total kilograms soybeans per area soybeans | numeric |
+| loss_ind | Binary area loss indicator | numeric |
+| drought_loss_ind | Binary drought area loss indicator | numeric |
+| flood_loss_ind | Binary flood area loss indicator | numeric |
+| animal_loss_ind | Binary animal area loss indicator | numeric |
+| pest_loss_ind | Binary pest area loss indicator | numeric |
+| geometry | Geospatial geometry of polygon | polygon |
+
+This data was collected by the [Central Statistics Office of Zambia (CSO)](https://www.zamstats.gov.zm/). These data are forecasted from survey data collected in May preceding the harvest season (July-August). The forecast model is conducted in Stata, a general purpose statistical software, and adjusted with post-harvest season survey data. There is an unknown degree of uncertainty in this forecast data as the model process and parameters are unknown.  The spatial resolution of the crop data is at the SEA-level, but higher resolution data is acceptable and will likely result in improved model perfomance. 
 
 ## Compute Requirements
 
