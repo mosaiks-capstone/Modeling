@@ -2,15 +2,15 @@
 
 ## Purpose
 
-This Modeling repository is the second repository a user should employ, after generating features from satellite imagery through the [Featurization](https://github.com/cropmosaiks/Featurization) repository. This Modeling repository contains code for utilizing the features created in the Featurization repository, or features downloaded from the [MOSAIKS API](https://siml.berkeley.edu). The Random Convolutional Featurization (RCF) process conducted in the Featurization repository produces features that are agnostic to the task a user is interested in modeling. In this repository, the MOSAIKS team has focused on using RCF to predict [insert final interest variables here], but these same features could be used to make predictions on forest cover, population, or many other variables visible from space. The key element to building a model is the data which the user needs to supply. This data should be in a standard tabular dataframe, with a spatial component included as column(s) (latitude and longitude) because this data is joined to the feature data spatially. In this repository, the MOSAIKS team pairs feature data with agricultural survey data for the country of Zambia. Due to data availability restrictions, this agricultural data is not provided with these notebooks. Regardless, the code and documentation in this repository is designed to guide the user in spatially joining the features to the user's data of interest, executing the linear regression step to train the model, applying the trained model to "out-of-bag" data, and statistically analyzing the results.
+This Modeling repository next repository a user should review, after generating features from satellite imagery through the [Featurization](https://github.com/cropmosaiks/Featurization) repository. This Modeling repository contains code for utilizing the features created in the Featurization repository, or features downloaded from the [MOSAIKS API](https://siml.berkeley.edu). The Random Convolutional Featurization (RCF) process conducted in the Featurization repository produces features that are agnostic to the task a user is interested in modeling. In this repository, the MOSAIKS team has focused on using RCF to predict [insert final interest variables here], but these same features could be used to make predictions on forest cover, population, or many other variables visible from space. The key element to building a model is the data which the user needs to supply. This data should be in a standard tabular dataframe, with a spatial component included as column(s) (latitude and longitude) because this data is joined to the feature data spatially. In this repository, the MOSAIKS team pairs feature data with agricultural survey data for the country of Zambia. Due to data availability and privacy restrictions, this agricultural data is not provided with these notebooks. Regardless, the code and documentation in this repository is designed to guide the user in spatially joining the features to the user's ground truth data of interest, executing the linear regression step to train the model, applying the trained model to "out-of-bag" data, and statistically analyzing the results.
 
 ## Datasets
 
-No feature data or crop data is hosted directly in this repository. To request access to Zambia feature data files, please contact the MOSAIKS team (individual GitHub accounts with contact information is included at the end of the main organization README [here](https://github.com/mosaiks-capstone)). Below we describe the feature data and agricultural data as it is used in this repository. A user can apply this same workflow to their own data of interest and contact the MOSAIKS team with any questions regarding data substitution.
+No feature data or crop data is hosted directly in this repository. To request access to Zambia feature data files, please contact the MOSAIKS team (individual GitHub accounts with contact information are included at the end of the main organization README [here](https://github.com/mosaiks-capstone)). Below we describe the feature data and agricultural data as it is used in this repository. A user can apply this same workflow to their own ground truth data and contact the MOSAIKS team with any questions regarding data substitution.
 
 ### 1. Features
 
-Random Convolutional Features represent a means of encoding geospatial locations with information based on satellite imagery. These features capture a broad range of detail, such as the color palettes of landscapes, as well as the delineation between colors (e.g., the boundaries between fields, forests, or buildings that are visible from space) and color combinations (e.g., blue next to green). In a feature data frame, each row corresponds to an image, while each column corresponds to a feature. Each cell within the data frame contains a numerical value that corresponds to the feature at that specific location. This value is statistically correlated with the agricultural data employed by the MOSAIKS team or other relevant data provided by the user during the modeling process.
+Random Convolutional Features represent a means of encoding geospatial locations with information based on satellite imagery. These features capture a broad range of detail, such as the color palettes of landscapes, as well as the delineation between colors (e.g., the boundaries between fields, forests, or buildings that are visible from space) and color combinations (e.g., blue next to green). In a feature data frame, each row corresponds to an image, while each column corresponds to a feature. Each cell within the data frame contains a numerical value that corresponds to the feature at that specific location. This value is statistically correlated, during the modeling process, with the agricultural data employed by the MOSAIKS team or other relevant data provided by the user during the modeling process.
 
 Random Convolutional Features can be generated using either the Featurization repository in this organization or by downloading them from the [MOSAIKS API](https://nadar.gspp.berkeley.edu/home/index/?next=/portal/index/). For further information regarding featurization and the MOSAIKS pipeline, readers are encourages to refer to [this paper by Rolf et al. (2021.)](https://www.nature.com/articles/s41467-021-24638-z).
 
@@ -18,7 +18,7 @@ Random Convolutional Features can be generated using either the Featurization re
 
 Due to data distribution restrictions, the survey enumeration area (SEA) level agricultural data used in our model is not available for public download. Coarse resolution province-level crop data is available for download from 1987 - 2017 at the [Zambia Data Portal](https://zambia.opendataforafrica.org/).
 
-The following is a synopsis of the variables encompassed in the Zambia agricultural survey data, which correspond to the variables that represent the outcomes of interest in the modeling procedure:
+The following is the complete list of variables selected from the preprocessed Zambian agricultural survey dataset. These varaiables were used as target variables in the modeling process.
 
 | Variable name | Description | Data type |
 | --- | --- | --- |
@@ -61,7 +61,7 @@ The following is a synopsis of the variables encompassed in the Zambia agricultu
 | pest_loss_ind | Binary pest area loss indicator | numeric |
 | geometry | Geospatial geometry of polygon | polygon |
 
-This data was collected by the [Central Statistics Office of Zambia (CSO)](https://www.zamstats.gov.zm/). These data are forecasted from survey data collected in May preceding the harvest season (July-August). The forecast model is conducted in Stata, a general purpose statistical software, and adjusted with post-harvest season survey data. There is an unknown degree of uncertainty in this forecast data as the model process and parameters are unknown.  The spatial resolution of the crop data is at the SEA-level, but higher resolution data is acceptable and will likely result in improved model perfomance. 
+This data was collected by the [Central Statistics Office of Zambia (CSO)](https://www.zamstats.gov.zm/). These data are forecasted from survey data collected in May preceding the harvest season (July-August). The forecast model is conducted in Stata, a general purpose statistical software, and adjusted with post-harvest season survey data. There is an unknown degree of uncertainty in this forecast data as the model process and parameters are unknown.  The spatial resolution of the crop data is at the SEA-level, but higher resolution data can be used and will likely result in improved model perfomance. 
 
 ## Compute Requirements
 
@@ -91,7 +91,7 @@ jupyter lab
     Using <code class="notranslate">taylor.bren.ucsb.edu</code>
   </summary>
   
-If a UCSB student in Bren School of Environmental Science & Management using `tsosie.bren.ucsb.edu`, the process to install an environment are more involved but the general principle is the same. The following code should be run one line at a time.
+If a UCSB student in Bren School of Environmental Science & Management is using `tsosie.bren.ucsb.edu`, the process to install an environment is more involved but the general principle is the same. The following code should be run one line at a time.
 ```console
 bash                                                   # this will open bash and allow you to navigate directories more easily
 cd <dir with environment file>                         # navigate to the directory with this repository clone
@@ -114,7 +114,7 @@ There are two primary options to getting started. If you have access to the Mast
 The notebooks are currently configured for use on Tsosie, with file paths that lead to persistent data storage containing features and agricultural data. If necessary, the file paths can be adjusted at the top of the notebook to reflect your data directory location.
 
 ### 2. Usage on Personal Compute
-To use personal compute, first clone this repository and configure your environemnt as described above. Following this, adjust the file paths at the top of the document to reflect your data directory location. This repository maintains the structure of the data subfolders, and it is recomended to use this structure for your own data. If you are unable to produce your own features, pre-compiled features can be downloaded from the [MOSAIKS API](https://siml.berkeley.edu).
+To use a personal computer, first clone this repository and configure your environemnt as described above. Following this, adjust the file paths at the top of the document to reflect your data directory location. This repository maintains the structure of the data subfolders, and it is recomended to use this structure for your own data. If you are unable to produce your own features, pre-compiled features can be downloaded from the [MOSAIKS API](https://siml.berkeley.edu).
 
 #### Constraints
 
@@ -125,7 +125,7 @@ Although this analysis can generally run on most personal computers, users may s
 #### Starting Notebook for Data Preprocessing & Imputation: [insert preprocessing notebook here]
   
 This notebook serves as a guide for users to preprocess and impute data in preparation for modeling. The following steps are outlined:
-  1. Import, process, and merge feature data and agricultural data. The resolution of the user-supplied data may be lower than that of the feature data. Agricultural data used in this MOSAIKS pipeline application pertains to the SEA-level.
+  1. Import, process, and merge feature data and agricultural ground truth data. The resolution of the user-supplied data may be lower than that of the feature data. Agricultural data used in this MOSAIKS pipeline application pertains to the SEA-level.
   2. Process NA values (convert infinity values to NA, impute NA values, and drop NA values).
   3. Perform statistical and visual data checks during the process.
   4. Export processed and merged geodataframe to be utilized in subsequent modeling stages. 
@@ -170,7 +170,6 @@ Although these values demonstrate a comparatively robust predictive performance 
 ## Contributing
 
 This project was completed on June 9th, 2023. However, we welcome and encourage suggestions for improvements to the code or documentation. Please submit any questions, comments, or code changes via issues or pull requests on either of the repositories. To communicate with the data scientists responsible for this project, please refer to their personal GitHub accounts listed at the bottom of the organization's README and feel free to contact them via email. You may also contact the authors of the [MOSAIKS paper, Rolf et al. 2021](https://www.nature.com/articles/s41467-021-24638-z) with any questions regarding the process.
-
 
 The agricultural data used in this MOSAIKS approach for Zambia was generously provided by the [Kathy Baylis lab at UC Santa Barbara](https://baylislab.ace.illinois.edu/), for which Protensia Hadunka offered exceptional support and contextual information on how this model could be helpful to Zambia's governing bodies. It should be noted that this agricultural data is not publicly available. However, this MOSAIKS pipeline and model are generalizable, and can be applied to any data that can be spatially joined with the feature data.
 
