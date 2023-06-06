@@ -50,6 +50,10 @@ The following is the complete list of variables selected from the preprocessed Z
 | prop_till_ridge | Area ridged divided by area planted in hectares | numeric |
 | prop_notill | Area not tilled divided by area planted in hectares | numeric |
 | prop_hand | Area not hand tilled divided by area planted in hectares | numeric |
+| monocrop | Area monocropped in hectares | numeric |
+| mixed_crop | Area mixed cropped in hectares | numeric |
+| prop_mono | Proportion of area monocropped | numeric |
+| prop_mixed | Proportion of area mixed cropped | numeric |
 | log_maize | Log of total kilograms maize per area maize | numeric |
 | log_sweetpotatoes | Log of total kilograms sweet potatoes per area sweet potatoes | numeric |
 | log_groundnuts | Log of total kilograms groundnuts per area groundnuts | numeric |
@@ -144,11 +148,35 @@ This folder and its subfolders are largely placeholders for where to put data wh
 
 ## Future Work
 
-As previously stated, the MOSAIKS pipeline is task-agnostic, meaning that it can be applied to any spatial data of interest, allowing for the training of a model and prediction of both temporal and spatial outcomes. The model's perfomance is assessed using various R and R^2 metrics. Our top-performing model obtained the following deameaned R values for the  corresponding variables: 
- [insert best performing values/variables] 
+As previously stated, the MOSAIKS pipeline is task-agnostic, meaning that it can be applied to any spatial data of interest, allowing for the training of a model and prediction of both temporal and spatial outcomes. Each model's perfomance is assessed using various R and R^2 metrics. For our purposes, we establish a validation R^2 score threshold of 0.4 as an indicator of statistical significance. Below is a comprehensive testing summary for each of the aforementioned variables that meet this minimum threshold:
   
-These values are not believed to be the result of overfitting. The demeaned R-squared values indicate the degree to which the model explains the variance in the following variables, approximately as percentages:
-[insert percentages/variables] 
+| Variable name | Training R^2 | Validation R^2 | Pearsons | Testing R^2 |
+| --- | --- | --- | --- | --- |
+| total_area_harv_ha | 0.71 | 0.46 | 0.69 | 0.63 |
+| total_area_lost_ha | 0.75 | 0.50 | 0.72 | 0.58 |
+| total_harv_kg | 0.86 | 0.45 | 0.71 | 0.37 |
+| yield_kgha | 0.74 | 0.62 | 0.80 | 0.58 |
+| frac_area_harv | 0.64 | 0.46 | 0.71 | 0.2 |
+| frac_area_loss | 0.64 | 0.46 | 0.71 | 0.2 |
+| maize | 0.77 | 0.61 | 0.79 | 0.6 |
+| groundnuts | 0.52 | 0.44 | 0.67 | 0.33 |
+| log_maize | 0.77 | 0.71 | 0.84 | 0.65 |
+| log_groundnuts | 0.58 | 0.42 | 0.66 | 0.38 |
+| prop_till_plough | 0.78 | 0.71 | 0.85 | 0.85 |
+| prop_till_ridge | 0.77 | 0.54 | 0.74 | 0.61 |
+| prop_mono | 0.9 | 0.56 | 0.76 | 0.68 |
+  
+The model performance of the following indicator variables are assessed using False Positive Rate (FPR) and AUC-ROC metrics:
+
+| Variable name | FPR | AUC-ROC |
+| --- | --- | ---|
+| loss_ind | 0 | 0.84 |
+| drought_loss_ind | 0 | 0.79 |
+| flood_loss_ind | 0 | 0.46 |
+| animal_loss_ind | 0 | 0.42 |
+| pest_loss_ind | 0 | 0.42 |
+  
+The significant performance of these models demonstrates the ability of this technique to be used for prediction for the above variables. It is relevant to note that many variables that did not meet the threshold of performance also had known significant data quality issues. However, further testing is recommended to gain a better understanding of the feasibility of predicting specific variables using these techniques. 
   
 Although these values demonstrate a comparatively robust predictive performance compared to other time-series models, there remains ample opportunity for further refinement. To enhance the training dataset and improve model performance, consider the following recommendations:\
   
